@@ -510,7 +510,12 @@ class Handler(BaseHTTPRequestHandler):
         if message:
             css = "ok" if ok else "err"
             msg_html = f'<div class="msg {css}">{html.escape(message)}</div>'
-        page = LOG_PAGE.format(message_block=msg_html, payload=html.escape(payload))
+    
+        # Avoid str.format() so CSS/HTML braces can never break rendering.
+        page = LOG_PAGE
+        page = page.replace("{message_block}", msg_html)
+        page = page.replace("{payload}", html.escape(payload))
+    
         self._send_html(HTTPStatus.OK, page)
 
     def _serve_file(self, path: Path) -> None:
