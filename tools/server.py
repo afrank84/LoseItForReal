@@ -98,13 +98,13 @@ def parse_block(text: str) -> Dict[str, Any]:
     i = 0
 
     def current_container(indent: int) -> Dict[str, Any]:
-        # Pop until we find a container with indent < current indent
-        while stack and stack[-1][0] >= indent:
+        # Keep the container whose indent exactly matches this line's indent
+        while stack and stack[-1][0] > indent:
             stack.pop()
-        if not stack:
-            # If this happens, indentation is malformed
+        if not stack or stack[-1][0] != indent:
             raise ParseError("Indentation error (bad nesting). Use 2 spaces per level.")
         return stack[-1][1]
+
 
     while i < len(lines):
         raw = lines[i]
@@ -154,7 +154,7 @@ def parse_block(text: str) -> Dict[str, Any]:
             obj: Dict[str, Any] = {}
             parent[key] = obj
             # push current key container with its indent+2 level boundary
-            stack.append((indent, obj))
+            stack.append((indent + 2, obj))
             i += 1
             continue
 
