@@ -1,0 +1,24 @@
+date: 2025-12-30
+day_type: normal
+source: ai_estimate
+
+meals_text:
+  breakfast: |
+    ...
+  lunch: |
+    ...
+  dinner: |
+    ...
+  snacks: |
+    ...
+
+estimates:
+  breakfast_kcal: 0
+  lunch_kcal: 0
+  dinner_kcal: 0
+  snacks_kcal: 0
+  total_kcal: 0
+  protein_g: null
+
+notes: |
+  ...
