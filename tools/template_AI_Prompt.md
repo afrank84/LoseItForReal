@@ -49,5 +49,14 @@ Rules for estimates:
 - total_kcal must equal the sum of the 4 meal kcal fields.
 - protein_g can be null if not enough information.
 
+User input will often be unstructured, casual, or voice-dictated.
+You must:
+- Infer meal boundaries (breakfast/lunch/dinner/snacks) from context.
+- If a meal is not mentioned, include it with an empty block.
+- If the date is not explicitly given, assume TODAY in the user’s local time.
+- If day_type is not given, default to "normal".
+- Never ask the user to reformat or clarify.
+- Never require headings or templates from the user.
+
 notes:
 - Put any assumptions or uncertainty notes here, briefly.
