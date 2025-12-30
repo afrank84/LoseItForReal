@@ -325,19 +325,19 @@ LOG_PAGE = """<!doctype html>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Calorie Log - Paste Entry</title>
   <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; }
-    .wrap { max-width: 980px; margin: 0 auto; }
-    textarea { width: 100%; height: 320px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; font-size: 14px; padding: 12px; }
-    .row { display: flex; gap: 16px; align-items: center; margin: 12px 0; flex-wrap: wrap; }
-    button { padding: 10px 14px; font-size: 14px; cursor: pointer; }
-    input[type="checkbox"] { transform: scale(1.2); }
-    .msg { padding: 10px 12px; border-radius: 8px; background: #f3f4f6; margin: 12px 0; }
-    .err { background: #fee2e2; }
-    .ok { background: #dcfce7; }
-    a { color: inherit; }
-    .hint { color: #444; font-size: 13px; line-height: 1.35; }
-    pre.sample { background: #111; color: #eee; padding: 12px; border-radius: 8px; overflow: auto; }
-  </style>
+      body {{ font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; }}
+      .wrap {{ max-width: 980px; margin: 0 auto; }}
+      textarea {{ width: 100%; height: 320px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; font-size: 14px; padding: 12px; }}
+      .row {{ display: flex; gap: 16px; align-items: center; margin: 12px 0; flex-wrap: wrap; }}
+      button {{ padding: 10px 14px; font-size: 14px; cursor: pointer; }}
+      input[type="checkbox"] {{ transform: scale(1.2); }}
+      .msg {{ padding: 10px 12px; border-radius: 8px; background: #f3f4f6; margin: 12px 0; }}
+      .err {{ background: #fee2e2; }}
+      .ok {{ background: #dcfce7; }}
+      a {{ color: inherit; }}
+      .hint {{ color: #444; font-size: 13px; line-height: 1.35; }}
+      pre.sample {{ background: #111; color: #eee; padding: 12px; border-radius: 8px; overflow: auto; }}
+</style>
 </head>
 <body>
   <div class="wrap">
