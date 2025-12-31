@@ -1,0 +1,356 @@
+/* =========================================================
+   THEME VARIABLES
+   ========================================================= */
+
+/* Default = DARK */
+:root {
+	--bg: #0f172a;
+	--panel: #111827;
+	--border: #1f2937;
+	--text: #e5e7eb;
+	--muted: #9ca3af;
+
+	--accent: #3b82f6;
+	--accent-soft: #1d4ed8;
+
+	--ok: #16a34a;
+	--err: #dc2626;
+
+	--mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
+
+/* Light mode override (system preference) */
+@media (prefers-color-scheme: light) {
+	:root {
+		--bg: #f8fafc;
+		--panel: #ffffff;
+		--border: #e5e7eb;
+		--text: #020617;
+		--muted: #475569;
+
+		--accent: #2563eb;
+		--accent-soft: #1d4ed8;
+
+		--ok: #15803d;
+		--err: #b91c1c;
+	}
+}
+
+/* Manual override: force DARK */
+html[data-theme="dark"] {
+	--bg: #0f172a;
+	--panel: #111827;
+	--border: #1f2937;
+	--text: #e5e7eb;
+	--muted: #9ca3af;
+
+	--accent: #3b82f6;
+	--accent-soft: #1d4ed8;
+
+	--ok: #16a34a;
+	--err: #dc2626;
+}
+
+/* Manual override: force LIGHT */
+html[data-theme="light"] {
+	--bg: #f8fafc;
+	--panel: #ffffff;
+	--border: #e5e7eb;
+	--text: #020617;
+	--muted: #475569;
+
+	--accent: #2563eb;
+	--accent-soft: #1d4ed8;
+
+	--ok: #15803d;
+	--err: #b91c1c;
+}
+
+/* =========================================================
+   BASE
+   ========================================================= */
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+	background: var(--bg);
+	color: var(--text);
+	line-height: 1.4;
+}
+
+/* =========================================================
+   LAYOUT
+   ========================================================= */
+
+.wrap {
+	max-width: 980px;
+	margin: 24px auto;
+	padding: 0 16px;
+}
+
+.row {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.grid {
+	display: grid;
+	gap: 16px;
+}
+
+.spacer {
+	flex: 1;
+}
+
+/* =========================================================
+   PANELS
+   ========================================================= */
+
+.card {
+	background: var(--panel);
+	border: 1px solid var(--border);
+	border-radius: 12px;
+	padding: 16px;
+}
+
+/* =========================================================
+   TEXT
+   ========================================================= */
+
+h1,
+h2,
+h3 {
+	font-weight: 600;
+}
+
+.small {
+	font-size: 13px;
+}
+
+.muted {
+	color: var(--muted);
+}
+
+a {
+	color: var(--text);
+	text-decoration: underline;
+}
+
+a:hover {
+	color: var(--accent);
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+button,
+.btn {
+	font-size: 14px;
+	padding: 8px 12px;
+	border-radius: 8px;
+	border: 1px solid var(--border);
+	background: transparent;
+	color: var(--text);
+	cursor: pointer;
+}
+
+button:hover,
+.btn:hover {
+	border-color: var(--accent);
+}
+
+.btn-primary {
+	background: var(--accent);
+	border-color: var(--accent);
+	color: #ffffff;
+}
+
+.btn-primary:hover {
+	background: var(--accent-soft);
+}
+
+.btn-ghost {
+	background: transparent;
+}
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+input[type="date"],
+select {
+	background: transparent;
+	color: var(--text);
+	border: 1px solid var(--border);
+	border-radius: 6px;
+	padding: 6px 8px;
+}
+
+/* =========================================================
+   EDITOR
+   ========================================================= */
+
+textarea {
+	width: 100%;
+	min-height: 340px;
+	margin-top: 12px;
+	padding: 12px;
+	background: transparent;
+	color: var(--text);
+	border: 1px solid var(--border);
+	border-radius: 8px;
+	font-family: var(--mono);
+	font-size: 14px;
+	resize: vertical;
+}
+
+textarea::placeholder {
+	color: var(--muted);
+}
+
+/* =========================================================
+   NOTICES
+   ========================================================= */
+
+.notice {
+	margin-top: 12px;
+	padding: 10px 12px;
+	border-radius: 8px;
+	font-size: 14px;
+}
+
+.notice.ok {
+	background: color-mix(in srgb, var(--ok) 20%, transparent);
+	border: 1px solid var(--ok);
+}
+
+.notice.err {
+	background: color-mix(in srgb, var(--err) 20%, transparent);
+	border: 1px solid var(--err);
+}
+
+/* =========================================================
+   CODE BLOCKS
+   ========================================================= */
+
+.codeblock {
+	background: transparent;
+	border: 1px solid var(--border);
+	border-radius: 8px;
+	padding: 12px;
+	overflow: auto;
+	font-family: var(--mono);
+	font-size: 13px;
+}
+
+/* =========================================================
+   CHECKBOXES
+   ========================================================= */
+
+input[type="checkbox"] {
+	transform: scale(1.1);
+}
+
+
+/* --- log.html helpers --- */
+.header {
+	justify-content: space-between;
+	margin-bottom: 12px;
+}
+
+.title {
+	margin: 0;
+}
+
+.between {
+	justify-content: space-between;
+	gap: 10px;
+}
+
+.actions {
+	margin-top: 12px;
+	align-items: center;
+}
+
+.h2 {
+	margin: 0 0 10px 0;
+}
+
+/* Make textarea and code blocks match cards nicely */
+.card textarea {
+	margin-top: 12px;
+}
+
+.card .codeblock {
+	margin-top: 12px;
+}
+
+/* --- dashboard helpers --- */
+.kpi {
+	display: flex;
+	gap: 18px;
+	flex-wrap: wrap;
+}
+
+.kpi>div {
+	min-width: 160px;
+}
+
+.big {
+	font-size: 22px;
+	font-weight: 700;
+}
+
+.table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.table th,
+.table td {
+	padding: 8px 10px;
+	border-bottom: 1px solid var(--border);
+	vertical-align: top;
+}
+
+.table th {
+	text-align: left;
+	background: color-mix(in srgb, var(--panel) 85%, var(--text) 15%);
+}
+
+.chart {
+	width: 100%;
+	height: 220px;
+	border: 1px solid var(--border);
+	border-radius: 12px;
+	background: transparent;
+}
+
+input,
+select {
+	padding: 8px 10px;
+}
+
+/* Responsive grid like your old inline CSS */
+@media (max-width: 980px) {
+	.grid {
+		grid-template-columns: 1fr !important;
+	}
+}
+
+
+.grid {
+	grid-template-columns: 1.2fr 0.8fr;
+}

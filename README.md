@@ -1,91 +1,48 @@
-# LoseItForReal
-Building my own system, tired of failing at weight loss. 
+```markdown
+# LoseItForReal (Local Calorie Log)
 
-# Local-First Calorie Log (AI-Assisted)
+A tiny, local-first calorie logging app.
 
-This project is a **local-first calorie and meal logging system** designed to:
+- Stores your daily entries in a single file: `data/entries.jsonl`
+- Simple dashboard: trends, 7-day rolling average, filters, day detail
+- Edit-in-place log editor: load a date, edit, save (merge or overwrite)
+- Dark / Light / System theme toggle (saved in your browser)
 
-- remove calorie lookup anxiety
-- preserve *what you actually ate* for reflection
-- produce stable, trend-worthy calorie data
-- work offline
-- store everything in a Git repository
-- require no accounts, databases, or cloud services
-
-Calories are **estimated by AI** using consistent assumptions.  
-You paste the result into a local app.  
-You view progress via a static dashboard.
+No accounts. No cloud. No database. Just files in your repo.
 
 ---
 
-## Philosophy
-
-There is rarely a single “correct” calorie number.
-
-This system prioritizes:
-
-- consistency over precision
-- trends over exactness
-- memory and reflection over databases
-- durability over convenience features
-
-If the estimates are stable, the trends are useful.
-
----
-
-## How it works (high level)
-
-1. You describe what you ate to an AI assistant (freeform text).
-2. The AI returns a **Daily Log Block** (structured text).
-3. You paste that block into a **local web app**.
-4. The app:
-   - validates the input
-   - stores it as a JSON line
-   - rebuilds dashboard data
-5. You optionally `git commit` and `git push`.
-6. You view progress via a static dashboard.
-
-No logins.  
-No API keys.  
-No external services required.
-
----
-
-## Repository layout
+## Folder Structure
 
 ```
 
-calorie-log/
+LoseItForReal/
 ├── data/
-│   └── entries.jsonl        # Canonical log (one day per line)
-├── tools/
-│   ├── server.py            # Local paste-based logging app
-│   └── parser.py            # Strict Daily Log Block parser
-├── scripts/
-│   └── build_site.py        # Builds dashboard data from JSONL
+│   └── entries.jsonl
+│
 ├── site/
-│   ├── index.html           # Static dashboard
-│   └── app.js               # Dashboard logic
-├── .github/workflows/
-│   └── build.yml            # Optional GitHub Action
-└── README.md
+│   ├── index.html
+│   ├── styles.css
+│   ├── app.js
+│   ├── log.html
+│   └── log.js
+│
+└── tools/
+└── server.py
 
 ````
 
 ---
 
-## Quick start
+## Requirements
 
-### Requirements
-- Python 3.x
-- A web browser
-- Git (optional but recommended)
+- Python 3 (recommended: 3.10+)
 
-No external Python libraries are required.
+That’s it.
 
 ---
 
-### Start the local logger
+## Run It
 
 From the repo root:
 
@@ -93,203 +50,148 @@ From the repo root:
 python tools/server.py
 ````
 
-Open in your browser:
+Then open:
 
-```
-http://127.0.0.1:8787
+* Dashboard: `http://127.0.0.1:8787/`
+* Add/Edit entry: `http://127.0.0.1:8787/log`
+
+Optional: change port
+
+```bash
+python tools/server.py 9999
 ```
 
 ---
 
-## Logging a day
+## Data File Format (JSONL)
 
-### Step 1: Ask AI for an estimate
+Your data lives here:
 
-You describe your day naturally:
+* `data/entries.jsonl`
 
+JSONL = “JSON Lines” = one JSON object per line.
+
+Example line:
+
+```json
+{"date":"2025-12-30","day_type":"normal","source":"ai_estimate","meals_text":{"breakfast":"...","lunch":"...","dinner":"...","snacks":"..."},"estimates":{"breakfast_kcal":250,"lunch_kcal":600,"dinner_kcal":900,"snacks_kcal":300,"total_kcal":2050},"notes":"optional","updated_at":"2025-12-30T22:15:00Z"}
 ```
-Eggs and toast for breakfast.
-Chicken rice bowl for lunch.
-Burger and fries out for dinner.
-Protein bar later.
-```
-
-The AI returns a **Daily Log Block** like this.
 
 ---
 
-### Step 2: Paste the Daily Log Block
+## Editing an Entry
 
-Paste this **exact text** into the local app:
+Go to `/log`.
 
-```
-date: 2025-12-30
-day_type: normal
-source: ai_estimate
+### Load
 
-meals_text:
-  breakfast: |
-    eggs
-    toast
-    coffee with cream
-  lunch: |
-    chicken rice bowl
-    broccoli
-    sauce
-  dinner: |
-    burger
-    fries
-  snacks: |
-    protein bar
+* Pick a date and click **Load**
+* Or click **Today**
 
-estimates:
-  breakfast_kcal: 350
-  lunch_kcal: 650
-  dinner_kcal: 1150
-  snacks_kcal: 220
-  total_kcal: 2370
-  protein_g: 140
+### Save behavior
 
-notes: |
-  Dinner treated as restaurant food.
-```
+You have two choices when the date already exists:
 
-Click **Save**.
+1. **Merge/Append**
+
+* Appends text in `meals_text` fields instead of replacing them
+* Overwrites `estimates` keys you provide
+* Safer for adding snacks later without blowing away earlier meals
+
+2. **Overwrite**
+
+* Replaces the entire entry for that date with what is in the editor
+
+If both are checked, Merge wins (safer).
+
+### Save & Go to Dashboard
+
+Saves and returns to `/`.
 
 ---
 
-### What happens on save
+## Theme Toggle (System / Dark / Light)
 
-* Entry is written to `data/entries.jsonl`
-* Only one entry per date is allowed (overwrite optional)
-* `site/data.json` is regenerated automatically
-* Dashboard updates immediately
+Both pages have a theme button:
 
----
+* Theme: System
+* Theme: Dark
+* Theme: Light
 
-## Viewing progress
+The setting is stored in your browser using `localStorage` key:
 
-### Local dashboard
+* `loseit_theme`
 
-* Open `site/index.html`
-* Or click “Open Dashboard” in the logger
-
-### What you can see
-
-* daily calories
-* 7-day rolling average
-* weekly averages
-* click any day to see:
-
-  * what you ate
-  * notes
-  * context (travel, social, etc.)
-
-This answers:
-
-* “Why did I go over?”
-* “What worked?”
-* “What meals are repeatable?”
+This is local to your browser profile.
 
 ---
 
-## Data format (important)
+## API Endpoints (Local Only)
 
-### Canonical storage: JSON Lines
+The UI uses two JSON endpoints:
 
-Each day is one line in `data/entries.jsonl`.
+### Load entry
 
-Example:
+`GET /api/entry?date=YYYY-MM-DD`
+
+Returns:
+
+* existing entry for that date, or
+* a default template if none exists
+
+### Save entry
+
+`POST /api/save`
+
+Body:
 
 ```json
 {
-  "date": "2025-12-30",
-  "day_type": "normal",
-  "source": "ai_estimate",
-  "meals_text": {
-    "breakfast": "eggs\ntoast\ncoffee with cream",
-    "lunch": "chicken rice bowl\nbroccoli\nsauce",
-    "dinner": "burger\nfries",
-    "snacks": "protein bar"
-  },
-  "estimates": {
-    "breakfast_kcal": 350,
-    "lunch_kcal": 650,
-    "dinner_kcal": 1150,
-    "snacks_kcal": 220,
-    "total_kcal": 2370,
-    "protein_g": 140
-  },
-  "notes": "Dinner treated as restaurant food."
+  "entry": { "...": "..." },
+  "merge": true,
+  "overwrite": false
 }
 ```
 
-This file is:
+Returns:
 
-* append-friendly
-* git-friendly
-* searchable
-* future-proof
-
----
-
-## Git workflow (optional)
-
-You can use this system without git, but it shines with it.
-
-Typical flow:
-
-```bash
-git status
-git commit -am "Log 2025-12-30"
-git push
+```json
+{ "ok": true, "message": "Saved...", "date": "YYYY-MM-DD" }
 ```
 
-If the GitHub Action is enabled:
+---
 
-* `site/data.json` is rebuilt automatically
-* GitHub Pages can host the dashboard
+## Common Issues
+
+### Dashboard says it can’t load entries.jsonl
+
+Make sure you started the server:
+
+```bash
+python tools/server.py
+```
+
+Then refresh the page.
+
+### I edited entries.jsonl manually and it broke
+
+If a line is not valid JSON, the dashboard will treat it as corrupt and ignore it.
+
+Fix the bad line or delete it.
 
 ---
 
-## Why this system works
+## Backup / Sync
 
-* You never debate calorie database entries
-* You keep human memory, not just numbers
-* AI absorbs uncertainty
-* Trends remain stable
-* Data is portable and durable
-* No vendor lock-in
+This app is designed for Git repos.
 
----
+Recommended workflow:
 
-## Non-goals
-
-This system intentionally does NOT:
-
-* track individual food databases
-* scan barcodes
-* sync across devices automatically
-* guarantee exact calorie accuracy
-
-Those features add friction and anxiety.
+* Commit `data/entries.jsonl` as you go
+* Push to your private repo for backup
 
 ---
 
 ## License
 
-Use it, modify it, fork it.
-This is a personal tool by design.
 
-```
-
----
-
-If you want, next we can:
-- rename the project (and logo)
-- tighten the README further
-- add a one-page “Why this works” philosophy doc
-- add a “failure modes” section for future-you
-
-But yes — this README is **good enough for anyone to succeed**.
-```

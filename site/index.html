@@ -1,87 +1,73 @@
 <!doctype html>
-<html>
+<html lang="en">
+
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Calorie Dashboard</title>
-  <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; }
-    .wrap { max-width: 1100px; margin: 0 auto; }
-    .row { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
-    a { color: inherit; }
-    .card { border: 1px solid #e5e7eb; border-radius: 12px; padding: 14px; }
-    .grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 16px; }
-    @media (max-width: 980px) { .grid { grid-template-columns: 1fr; } }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { padding: 8px 10px; border-bottom: 1px solid #eee; vertical-align: top; }
-    th { text-align: left; background: #fafafa; }
-    .small { color: #444; font-size: 13px; line-height: 1.35; }
-    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; font-size: 13px; white-space: pre-wrap; }
-    .kpi { display: flex; gap: 18px; flex-wrap: wrap; }
-    .kpi > div { min-width: 160px; }
-    .big { font-size: 22px; font-weight: 700; }
-    .muted { color: #555; }
-    input, select { padding: 8px 10px; }
-    button { padding: 9px 12px; cursor: pointer; }
-    .chart { width: 100%; height: 220px; border: 1px solid #e5e7eb; border-radius: 12px; background: #fff; }
-  </style>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Calorie Dashboard</title>
+	<link rel="stylesheet" href="/style.css" />
 </head>
+
 <body>
-  <div class="wrap">
-    <div class="row" style="justify-content: space-between;">
-      <h1 style="margin:0;">Calorie Dashboard</h1>
-      <div class="row">
-        <a href="/log">Add Entry</a>
-        <a href="/data/entries.jsonl">entries.jsonl</a>
-      </div>
-    </div>
+	<div class="wrap">
+		<div class="row header">
+			<h1 class="title">Calorie Dashboard</h1>
+			<div class="row">
+				<button class="btn btn-ghost" id="themeBtn" type="button">Theme: System</button>
+				<a href="/log">Add Entry</a>
+				<a href="/data/entries.jsonl">entries.jsonl</a>
+			</div>
+		</div>
 
-    <div class="card" style="margin-top:12px;">
-      <div class="kpi" id="kpis"></div>
-      <div class="small muted" id="status" style="margin-top:8px;"></div>
-    </div>
+		<div class="card">
+			<div class="kpi" id="kpis"></div>
+			<div class="small muted" id="status"></div>
+		</div>
 
-    <div class="grid" style="margin-top:16px;">
-      <div class="card">
-        <h2 style="margin:0 0 10px 0;">Calories Trend</h2>
-        <svg class="chart" id="chart"></svg>
-        <div class="small muted" style="margin-top:10px;">
-          Line is daily calories. The thicker line is the 7-day rolling average (when enough data exists).
-        </div>
+		<div class="grid" style="margin-top:16px;">
+			<div class="card">
+				<h2 class="h2">Calories Trend</h2>
+				<svg class="chart" id="chart"></svg>
+				<div class="small muted" style="margin-top:10px;">
+					Line is daily calories. The thicker line is the 7-day rolling average (when enough data exists).
+				</div>
 
-        <div class="row" style="margin-top:12px;">
-          <label class="small">Filter:</label>
-          <select id="filterType">
-            <option value="all">All days</option>
-            <option value="over">Over a threshold</option>
-            <option value="under">Under a threshold</option>
-          </select>
-          <input id="threshold" type="number" value="2500" style="width:120px;"/>
-          <button id="applyFilter">Apply</button>
-        </div>
+				<div class="row" style="margin-top:12px;">
+					<label class="small">Filter:</label>
+					<select id="filterType">
+						<option value="all">All days</option>
+						<option value="over">Over a threshold</option>
+						<option value="under">Under a threshold</option>
+					</select>
+					<input id="threshold" type="number" value="2500" style="width:120px;" />
+					<button class="btn" id="applyFilter" type="button">Apply</button>
+				</div>
 
-        <h2 style="margin:16px 0 10px 0;">Days</h2>
-        <table>
-          <thead>
-            <tr>
-              <th style="width:120px;">Date</th>
-              <th style="width:90px;">Kcal</th>
-              <th style="width:120px;">Day Type</th>
-              <th>Notes (preview)</th>
-            </tr>
-          </thead>
-          <tbody id="daysTbody"></tbody>
-        </table>
-      </div>
+				<h2 class="h2" style="margin-top:16px;">Days</h2>
+				<table class="table">
+					<thead>
+						<tr>
+							<th style="width:120px;">Date</th>
+							<th style="width:90px;">Kcal</th>
+							<th style="width:120px;">Day Type</th>
+							<th>Notes (preview)</th>
+						</tr>
+					</thead>
+					<tbody id="daysTbody"></tbody>
+				</table>
+			</div>
 
-      <div class="card">
-        <h2 style="margin:0 0 10px 0;">Day Detail</h2>
-        <div class="small muted" id="detailHint">Click a day from the table to see what you ate and the estimate breakdown.</div>
-        <div id="detail"></div>
-      </div>
-    </div>
-  </div>
+			<div class="card">
+				<h2 class="h2">Day Detail</h2>
+				<div class="small muted" id="detailHint">
+					Click a day from the table to see what you ate and the estimate breakdown.
+				</div>
+				<div id="detail"></div>
+			</div>
+		</div>
+	</div>
 
-  <script src="/app.js"></script>
+	<script src="/app.js"></script>
 </body>
+
 </html>

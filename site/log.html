@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Edit Daily Entry</title>
+	<link rel="stylesheet" href="/style.css" />
+</head>
+
+<body>
+	<div class="wrap">
+		<div class="row" style="justify-content: space-between;">
+			<h1 style="margin:0;">Edit Daily Entry</h1>
+			<div class="row">
+				<a href="/">Dashboard</a>
+				<a href="/data/entries.jsonl">entries.jsonl</a>
+			</div>
+		</div>
+
+		<div class="card" style="margin-top:12px;">
+			<div class="row" style="justify-content: space-between; gap: 10px;">
+				<div class="small muted" id="loadedLabel">Loaded date: </div>
+
+				<div class="row">
+					<label class="small">Jump to date:</label>
+					<input type="date" id="datePick" />
+					<button class="btn" id="loadBtn" type="button">Load</button>
+					<button class="btn btn-ghost" id="todayBtn" type="button">Today</button>
+				</div>
+			</div>
+
+			<div id="msg" class="notice" style="display:none;"></div>
+
+			<div class="row" style="margin-top:12px; align-items:center;">
+				<label class="small">
+					<input type="checkbox" id="mergeChk" />
+					Merge/Append if date exists
+				</label>
+
+				<label class="small">
+					<input type="checkbox" id="overwriteChk" />
+					Overwrite if date exists
+				</label>
+
+				<span class="spacer"></span>
+
+				<button class="btn" id="saveBtn" type="button">Save Entry</button>
+				<button class="btn btn-primary" id="saveGoBtn" type="button">Save &amp; Go to Dashboard</button>
+			</div>
+
+			<textarea id="payload" spellcheck="false" class="mono" placeholder="Loading..."></textarea>
+		</div>
+
+		<div class="card" style="margin-top:16px;">
+			<h2 style="margin:0 0 10px 0;">Paste Format</h2>
+			<div class="small muted">
+				Edit the JSON object in the box above. Required: <code>date</code> (YYYY-MM-DD) OR omit date to default
+				to today.
+				Recommended: <code>meals_text</code> + <code>estimates</code>.
+			</div>
+
+			<pre class="codeblock" style="margin-top:12px;">{
+  "date": "2025-12-30",
+  "day_type": "normal",
+  "source": "ai_estimate",
+  "meals_text": {
+    "breakfast": "2 eggs\ncoffee",
+    "lunch": "sandwich",
+    "dinner": "salmon and rice",
+    "snacks": "chocolate milk"
+  },
+  "estimates": {
+    "breakfast_kcal": 250,
+    "lunch_kcal": 600,
+    "dinner_kcal": 900,
+    "snacks_kcal": 300,
+    "total_kcal": 2050
+  },
+  "notes": "optional notes"
+}</pre>
+		</div>
+	</div>
+
+	<script src="/log.js"></script>
+</body>
+
+</html>
