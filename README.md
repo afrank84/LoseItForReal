@@ -1,4 +1,3 @@
-```markdown
 # LoseItForReal (Local Calorie Log)
 
 A tiny, local-first calorie logging app.
@@ -14,7 +13,7 @@ No accounts. No cloud. No database. Just files in your repo.
 
 ## Folder Structure
 
-```
+
 
 LoseItForReal/
 ├── data/
@@ -30,26 +29,21 @@ LoseItForReal/
 └── tools/
 └── server.py
 
-````
+
 
 ---
 
 ## Requirements
-
 - Python 3 (recommended: 3.10+)
-
 That’s it.
 
 ---
 
 ## Run It
-
 From the repo root:
-
 ```bash
 python tools/server.py
-````
-
+```
 Then open:
 
 * Dashboard: `http://127.0.0.1:8787/`
@@ -172,19 +166,14 @@ python tools/server.py
 ```
 
 Then refresh the page.
-
 ### I edited entries.jsonl manually and it broke
-
 If a line is not valid JSON, the dashboard will treat it as corrupt and ignore it.
-
 Fix the bad line or delete it.
 
 ---
 
 ## Backup / Sync
-
 This app is designed for Git repos.
-
 Recommended workflow:
 
 * Commit `data/entries.jsonl` as you go
