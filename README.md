@@ -8,13 +8,14 @@ A tiny, local-first calorie logging app.
 - Dark / Light / System theme toggle (saved in your browser)
 
 No accounts. No cloud. No database. Just files in your repo.
+![Daily Entry Screen](site/imgs/Calorie_Dashboard.png)
 
 ---
 
 ## Folder Structure
 
 
-
+```
 LoseItForReal/
 ├── data/
 │   └── entries.jsonl
@@ -28,7 +29,7 @@ LoseItForReal/
 │
 └── tools/
 └── server.py
-
+```
 
 
 ---
@@ -58,6 +59,7 @@ python tools/server.py 9999
 ---
 
 ## Data File Format (JSONL)
+![Daily Entry Screen](site/imgs/Edit_Daily_Entry.png)
 
 Your data lives here:
 
