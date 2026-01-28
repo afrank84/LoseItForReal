@@ -278,18 +278,19 @@
 		const tbody = document.getElementById("daysTbody");
 		tbody.innerHTML = "";
 
-		for (const e of entries) {
+		for (const e of entries.slice().reverse()) {
 			const kcal = getKcal(e);
 			const notes = (e.notes || "").split("\n")[0];
 			const tr = document.createElement("tr");
 			tr.innerHTML = `
-        <td><a href="#" data-date="${esc(e.date || "")}">${esc(e.date || "")}</a></td>
-        <td>${kcal === null ? "n/a" : esc(kcal)}</td>
-        <td>${esc(e.day_type || "")}</td>
-        <td class="small">${esc(notes)}</td>
-      `;
+			<td><a href="#" data-date="${esc(e.date || "")}">${esc(e.date || "")}</a></td>
+			<td>${kcal === null ? "n/a" : esc(kcal)}</td>
+			<td>${esc(e.day_type || "")}</td>
+			<td class="small">${esc(notes)}</td>
+    `;
 			tbody.appendChild(tr);
 		}
+
 
 		tbody.querySelectorAll("a[data-date]").forEach(a => {
 			a.addEventListener("click", (ev) => {

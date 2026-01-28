@@ -85,6 +85,10 @@ def _read_jsonl_entries() -> list[dict]:
 
 def _write_jsonl_entries(entries: list[dict]) -> None:
     _ensure_paths()
+
+    # Always store newest -> oldest
+    entries = _sort_entries_newest_first(entries)
+
     # One JSON object per line (compact)
     out_lines = [json.dumps(e, separators=(",", ":"), ensure_ascii=False) for e in entries]
     data = ("\n".join(out_lines) + ("\n" if out_lines else ""))
@@ -101,6 +105,15 @@ def _write_jsonl_entries(entries: list[dict]) -> None:
                 os.remove(tmp_path)
         except Exception:
             pass
+
+def _sort_entries_newest_first(entries: list[dict]) -> list[dict]:
+    """
+    Sort entries by date (YYYY-MM-DD) descending. Invalid/missing dates go last.
+    """
+    def key(e: dict) -> str:
+        d = str(e.get("date", "") or "")
+        return d if DATE_RE.match(d) else ""
+    return sorted(entries, key=key, reverse=True)
 
 
 def _find_entry_index(entries: list[dict], date_str: str) -> int:
